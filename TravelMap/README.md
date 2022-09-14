@@ -1,0 +1,3 @@
+# Description
+
+Site web développé en React et Express GraphQL dans le cadre d'un projet personnel pour explorer certaines technologies et avoir un éventuel journal interactif. Le site est une carte dynamique indiquant des pays et des régions visitées et permet présentement de décrire ces régions et de les associer à des articles de blog. Le code est toujours en développement donc il faudra excuser certains raccourcis temporaire tels que des requêtes http effectuées directement dans les composants React et l'absence de tests et de gestion d'erreurs. Les données utilisées sont des "placeholders" et il n'y a pas encore de base de données.
