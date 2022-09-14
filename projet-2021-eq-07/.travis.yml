@@ -1,0 +1,24 @@
+arch: amd64
+os: linux
+dist: focal
+
+language: minimal
+
+services:
+  - docker
+
+install: true
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - "$HOME/.m2/repository"
+    - "$HOME/cache/.m2/"
+    - "$HOME/maven/.m2/"
+    - "$HOME/maven"
+
+before_install:
+  - docker build -t application-glo4002 .

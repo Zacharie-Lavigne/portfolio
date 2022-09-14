@@ -1,0 +1,3313 @@
+{
+	"info": {
+		"_postman_id": "572fbf7b-37a4-4189-ad0d-573f155a41ff",
+		"name": "Qualité et métriques",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "Default Behavior",
+					"item": [
+						{
+							"name": "Reset Game",
+							"item": [
+								{
+									"name": "Reset Game",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/reset",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"reset"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Play Turn",
+							"item": [
+								{
+									"name": "Play Turn",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should initially be at the first turn\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.turnNumber).to.eql(1);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get Resources",
+							"item": [
+								{
+									"name": "Get Food Resources",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should contain fresh resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(100);",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(250);",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(10000);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Should not contain expired resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"pm.test(\"Should not contain consumed resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Add Resources",
+							"item": [
+								{
+									"name": "Add Food resource",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"qtyBurger\": 1,\n    \"qtySalad\": 1,\n    \"qtyWater\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Adding dinosaurs to the park",
+					"item": [
+						{
+							"name": "Add Dinosaurs",
+							"item": [
+								{
+									"name": "Add Dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{nameOfFirstDinosaur}}\",\r\n  \"weight\": 100,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Diplodocus\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add second Dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{nameOfSecondDinosaur}}\",\r\n  \"weight\": 125,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Spinosaurus\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add third Dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{nameOfThirdDinosaur}}\",\r\n  \"weight\": 150,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Stegosaurus\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn (to save dinosaurs)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Get Dinosaurs",
+							"item": [
+								{
+									"name": "Get first dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains first dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"nameOfFirstDinosaur\"));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs/{{nameOfFirstDinosaur}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs",
+												"{{nameOfFirstDinosaur}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get second dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains first dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"nameOfSecondDinosaur\"));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs/{{nameOfSecondDinosaur}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs",
+												"{{nameOfSecondDinosaur}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get third dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains first dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.name).to.eql(pm.collectionVariables.get(\"nameOfThirdDinosaur\"));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs/{{nameOfThirdDinosaur}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs",
+												"{{nameOfThirdDinosaur}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Dinosaurs",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains first dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    let expectedName = pm.collectionVariables.get(\"nameOfFirstDinosaur\")\r",
+													"    let dinosaur = jsonData.find(dinosaur => dinosaur.name === expectedName);\r",
+													"    pm.expect(dinosaur).to.not.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains second dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    let expectedName = pm.collectionVariables.get(\"nameOfSecondDinosaur\")\r",
+													"    let dinosaur = jsonData.find(dinosaur => dinosaur.name === expectedName);\r",
+													"    pm.expect(dinosaur).to.not.be.undefined\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains first dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    let expectedName = pm.collectionVariables.get(\"nameOfThirdDinosaur\")\r",
+													"    let dinosaur = jsonData.find(dinosaur => dinosaur.name === expectedName);\r",
+													"    pm.expect(dinosaur).to.not.be.undefined\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reset Game",
+							"item": [
+								{
+									"name": "Reset the game",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/reset",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"reset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get no Dinosaurs",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response contains first dinosaur\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.length).to.eql(0);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"nameOfFirstDinosaur\", \"Ralf\");",
+									"pm.collectionVariables.set(\"nameOfSecondDinosaur\", \"Amy\");",
+									"pm.collectionVariables.set(\"nameOfThirdDinosaur\", \"Brigitte\");"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Adding food to the park",
+					"item": [
+						{
+							"name": "Main scenario",
+							"item": [
+								{
+									"name": "Get no food resources",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should contain fresh resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Should not contain expired resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"pm.test(\"Should not contain consumed resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Food resources",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"qtyBurger\": 420,\n    \"qtySalad\": 420,\n    \"qtyWater\": 420\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get no food resources",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should contain fresh resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Should not contain expired resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"pm.test(\"Should not contain consumed resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn (to execute the actions)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should initially be at the first turn\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.turnNumber).to.eql(1);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get food resources",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should contain fresh resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(520);",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(670);",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(10420);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Should not contain expired resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"pm.test(\"Should not contain consumed resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should initially be at the first turn\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.turnNumber).to.eql(2);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should initially be at the first turn\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.turnNumber).to.eql(3);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn 4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should initially be at the first turn\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.turnNumber).to.eql(4);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get food resources (with expired food)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should contain fresh resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(820);",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(750);",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(40420);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Should not contain expired resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(670);",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"pm.test(\"Should not contain consumed resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn 5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should initially be at the first turn\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.turnNumber).to.eql(5);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get food resources (with more expired food)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Should contain fresh resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(400);",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(750);",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(50420);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Should not contain expired resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(520);",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(920);",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+													"});",
+													"",
+													"pm.test(\"Should not contain consumed resources by default\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reset Game",
+							"item": [
+								{
+									"name": "Reset the game",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/reset",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"reset"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get no resources",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should contain fresh resources by default\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.fresh.qtyBurger).to.eql(0);\r",
+													"    pm.expect(jsonData.fresh.qtySalad).to.eql(0);\r",
+													"    pm.expect(jsonData.fresh.qtyWater).to.eql(0);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"pm.test(\"Should not contain expired resources by default\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);\r",
+													"    pm.expect(jsonData.expired.qtySalad).to.eql(0);\r",
+													"    pm.expect(jsonData.expired.qtyWater).to.eql(0);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should not contain consumed resources by default\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);\r",
+													"    pm.expect(jsonData.consumed.qtySalad).to.eql(0);\r",
+													"    pm.expect(jsonData.consumed.qtyWater).to.eql(0);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/resources",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"resources"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Complex scenario of dinosaurs eating",
+					"item": [
+						{
+							"name": "Add first dinosaur",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfFirstDinosaur}}\",\r\n  \"weight\": 1375,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Stegosaurus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add second Dinosaur",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfSecondDinosaur}}\",\r\n  \"weight\": 100,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Stegosaurus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play first turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should initially be at the first turn\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.turnNumber).to.eql(1);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Food Resources (first time eating for first and second dinosaur)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should contain fresh resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.fresh.qtyBurger).to.eql(100);",
+											"    pm.expect(jsonData.fresh.qtySalad).to.eql(242);",
+											"    pm.expect(jsonData.fresh.qtyWater).to.eql(8230);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Should not contain expired resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+											"});",
+											"",
+											"pm.test(\"Should have some salad and water consumed\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.consumed.qtyBurger).to.eql(0);",
+											"    pm.expect(jsonData.consumed.qtySalad).to.eql(8);",
+											"    pm.expect(jsonData.consumed.qtyWater).to.eql(1770);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add third Dinosaur",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfThirdDinosaur}}\",\r\n  \"weight\": 20450,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Velociraptor\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food resources (more water)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"qtyBurger\": 0,\n    \"qtySalad\": 0,\n    \"qtyWater\": 10000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play second turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should be at the second turn\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.turnNumber).to.eql(2);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Food Resources (first time eating for third dinosaur)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should contain fresh resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.fresh.qtyBurger).to.eql(159);",
+											"    pm.expect(jsonData.fresh.qtySalad).to.eql(487);",
+											"    pm.expect(jsonData.fresh.qtyWater).to.eql(13230);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Should not contain expired resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+											"});",
+											"",
+											"pm.test(\"Should contain consumed resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.consumed.qtyBurger).to.eql(41);",
+											"    pm.expect(jsonData.consumed.qtySalad).to.eql(13);",
+											"    pm.expect(jsonData.consumed.qtyWater).to.eql(16770);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play third turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should be at the third turn\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.turnNumber).to.eql(3);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Food Resources (not enough water for two dinosaurs)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should contain fresh resources but no water\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.fresh.qtyBurger).to.eql(259);",
+											"    pm.expect(jsonData.fresh.qtySalad).to.eql(732);",
+											"    pm.expect(jsonData.fresh.qtyWater).to.eql(22345);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Should not contain expired resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtySalad).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+											"});",
+											"",
+											"pm.test(\"Should contain consumed resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.consumed.qtyBurger).to.eql(41);",
+											"    pm.expect(jsonData.consumed.qtySalad).to.eql(18);",
+											"    pm.expect(jsonData.consumed.qtyWater).to.eql(17655);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Dinosaur (one is dead so only two remaining)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response contains only one dinosaur\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.length).to.eql(2)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get first dinosaur (still alive because water is divided in two)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs/{{nameOfFirstDinosaur}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs",
+										"{{nameOfFirstDinosaur}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get second dinosaur (still alive because order is changed)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs/{{nameOfSecondDinosaur}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs",
+										"{{nameOfSecondDinosaur}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play fourth turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should be at the fourth turn\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.turnNumber).to.eql(4);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Food Resources (not enough water, last dinosaur is dead)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should contain fresh resources but no water\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.fresh.qtyBurger).to.eql(359);",
+											"    pm.expect(jsonData.fresh.qtySalad).to.eql(745);",
+											"    pm.expect(jsonData.fresh.qtyWater).to.eql(31460);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Should contain some expired salad\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.expired.qtyBurger).to.eql(0);",
+											"    pm.expect(jsonData.expired.qtySalad).to.eql(232);",
+											"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+											"});",
+											"",
+											"pm.test(\"Should contain consumed resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.consumed.qtyBurger).to.eql(41);",
+											"    pm.expect(jsonData.consumed.qtySalad).to.eql(23);",
+											"    pm.expect(jsonData.consumed.qtyWater).to.eql(18540);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play fifth turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should be at the fifth turn\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.turnNumber).to.eql(5);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Food Resources (burgers are starting to expire)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should contain fresh resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.fresh.qtyBurger).to.eql(400);",
+											"    pm.expect(jsonData.fresh.qtySalad).to.eql(745);",
+											"    pm.expect(jsonData.fresh.qtyWater).to.eql(40575);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Should contain expired food but no expired water\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.expired.qtyBurger).to.eql(59);",
+											"    pm.expect(jsonData.expired.qtySalad).to.eql(477);",
+											"    pm.expect(jsonData.expired.qtyWater).to.eql(0);",
+											"});",
+											"",
+											"pm.test(\"Should contain consumed resources\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.consumed.qtyBurger).to.eql(41);",
+											"    pm.expect(jsonData.consumed.qtySalad).to.eql(28);",
+											"    pm.expect(jsonData.consumed.qtyWater).to.eql(19425);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset the game",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/reset",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Scenario with two dinosaurs of almost the same strength",
+					"item": [
+						{
+							"name": "Add first dinosaur",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfFirstDinosaur}}\",\r\n  \"weight\": 100,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Diplodocus\"\r\n}\r\n\r\n//force de 100",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add second dinosaur",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfSecondDinosaur}}\",\r\n  \"weight\": 700,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Spinosaurus\"\r\n}\r\n\r\n//force de 10,5 arrondi à 11",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add a big third dinosaur",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfThirdDinosaur}}\",\r\n  \"weight\": 16666,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Spinosaurus\"\r\n}\r\n\r\n//gros dinosaure qui boit avant tout le monde",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add food resource",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"qtyBurger\": 0,\n    \"qtySalad\": 0,\n    \"qtyWater\": 10929\n}\n\n//assez pour 2 et 3, mais pas 1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play Turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Should initially be at the first turn\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.turnNumber).to.eql(1);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get first dinosaur (should fail)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs/{{nameOfFirstDinosaur}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs",
+										"{{nameOfFirstDinosaur}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get second dinosaur Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs/{{nameOfSecondDinosaur}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs",
+										"{{nameOfSecondDinosaur}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Game",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/reset",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Breeding Requests",
+					"item": [
+						{
+							"name": "Add father",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfFirstDinosaur}}\",\r\n  \"weight\": 100,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Diplodocus\"\r\n}\r\n\r\n//force de 100",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add mother",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfSecondDinosaur}}\",\r\n  \"weight\": 700,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Spinosaurus\"\r\n}\r\n\r\n//force de 10,5 arrondi à 11",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Play Turn",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/turn",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"turn"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Breeding call works",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jean Robidoux\",\r\n  \"fatherName\": \"{{nameOfFirstDinosaur}}\",\r\n  \"motherName\": \"{{nameOfSecondDinosaur}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/breed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"breed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset the game",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/reset",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"reset"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Exceptions",
+			"item": [
+				{
+					"name": "Add Resources",
+					"item": [
+						{
+							"name": "Add Negative Food resource",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"INVALID_RESOURCE_QUANTITY\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"Resource quantities must be positive.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"qtyBurger\": -1,\r\n    \"qtySalad\": 1,\r\n    \"qtyWater\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/resources",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"resources"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Dinosaurs",
+					"item": [
+						{
+							"name": "Setup for test",
+							"item": [
+								{
+									"name": "Add Dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"Jérome 50\",\r\n  \"weight\": 420,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Ankylosaurus\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play turn (to save dinosaurs)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Add Dinosaur with duplicate name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"DUPLICATE_NAME\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified name already exists and must be unique.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jérome 50\",\r\n  \"weight\": 420,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Ankylosaurus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Dinosaur with invalid gender",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"INVALID_GENDER\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified gender must be \\\"m\\\" or \\\"f\\\".\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Sylvain Lalonde\",\r\n  \"weight\": 1337,\r\n  \"gender\": \"x\",\r\n  \"species\": \"Ankylosaurus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Dinosaur with invalid weight",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"INVALID_WEIGHT\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified weight must be equal or greater than 100 kg.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Antimatière\",\r\n  \"weight\": 99,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Diplodocus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Dinosaur with invalid species",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"INVALID_SPECIES\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified species is not supported.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Petit pied\",\r\n  \"weight\": 100,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Apatosaurus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Dinosaur",
+					"item": [
+						{
+							"name": "Get Dinosaur with non existent name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"NON_EXISTENT_NAME\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified name does not exist.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8181/dinosaurs/sylvain",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"dinosaurs",
+										"sylvain"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Breed Dinosaurs",
+					"item": [
+						{
+							"name": "Setup for test",
+							"item": [
+								{
+									"name": "Add father",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{nameOfFirstDinosaur}}\",\r\n  \"weight\": 100,\r\n  \"gender\": \"m\",\r\n  \"species\": \"Diplodocus\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add mother",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{nameOfSecondDinosaur}}\",\r\n  \"weight\": 700,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Spinosaurus\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add third dinosaur",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{nameOfThirdDinosaur}}\",\r\n  \"weight\": 2450,\r\n  \"gender\": \"f\",\r\n  \"species\": \"Velociraptor\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:8181/dinosaurs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"dinosaurs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Play Turn",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8181/turn",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8181",
+											"path": [
+												"turn"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Child Name Already Taken Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"DUPLICATE_NAME\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified name already exists and must be unique.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"{{nameOfThirdDinosaur}}\",\r\n  \"fatherName\": \"{{nameOfFirstDinosaur}}\",\r\n  \"motherName\": \"{{nameOfSecondDinosaur}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/breed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"breed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Non existent father name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"NON_EXISTENT_NAME\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified name does not exist.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jean Robidoux\",\r\n  \"fatherName\": \"Sergio le lion\",\r\n  \"motherName\": \"{{nameOfSecondDinosaur}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/breed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"breed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Non existent mother name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"NON_EXISTENT_NAME\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"The specified name does not exist.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jean Robidoux\",\r\n  \"fatherName\": \"{{nameOfFirstDinosaur}}\",\r\n  \"motherName\": \"Sylviette la tannante\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/breed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"breed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Father is not male",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"INVALID_FATHER\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"Father must be a male.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jean Robidoux\",\r\n  \"fatherName\": \"{{nameOfSecondDinosaur}}\",\r\n  \"motherName\": \"{{nameOfSecondDinosaur}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/breed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"breed"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mother is not female",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Exception message contains expected strings\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"INVALID_MOTHER\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"Mother must be a female.\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jean Robidoux\",\r\n  \"fatherName\": \"{{nameOfFirstDinosaur}}\",\r\n  \"motherName\": \"{{nameOfFirstDinosaur}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8181/breed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8181",
+									"path": [
+										"breed"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "nameOfFirstDinosaur",
+			"value": ""
+		},
+		{
+			"key": "nameOfSecondDinosaur",
+			"value": ""
+		},
+		{
+			"key": "nameOfThirdDinosaur",
+			"value": ""
+		}
+	]
+}
